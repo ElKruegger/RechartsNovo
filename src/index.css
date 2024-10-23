@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-list-item {
+  @apply cursor-pointer hover:text-purple-400 text-sm flex flex flex-col items-center gap-1;
+}
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
