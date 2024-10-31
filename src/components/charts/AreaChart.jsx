@@ -1,5 +1,5 @@
 'use client';
-
+import { useApi } from '../../Hooks/UseData';
 import {
   AreaChart,
   Area,
@@ -11,107 +11,34 @@ import {
   Legend,
 } from 'recharts';
 
-const productSales = [
-  {
-    name: 'Jan',
-    Motivo1: 1000,
-    Motivo2: 2400,
-    Motivo3: 3400,
-  },
-  {
-    name: 'Feb',
-    Motivo1: 4000,
-    Motivo2: 5400,
-    Motivo3: 6400,
-  },
-  {
-    name: 'Mar',
-    Motivo1: 7000,
-    Motivo2: 8400,
-    Motivo3: 9400,
-  },
-  {
-    name: 'Apr',
-    Motivo1: 10000,
-    Motivo2: 9400,
-    Motivo3: 8400,
-  },
-  {
-    name: 'May',
-    Motivo1: 1000,
-    Motivo2: 2400,
-    Motivo3: 2400,
-  },
-  {
-    name: 'Ago',
-    Motivo1: 1000,
-    Motivo2: 2400,
-    Motivo3: 2400,
-  },
-  {
-    name: 'Sep',
-    Motivo1: 4000,
-    Motivo2: 2400,
-    Motivo3: 5400,
-  },
-  {
-    name: 'Out',
-    Motivo1: 3000,
-    Motivo2: 5400,
-    Motivo3: 7400,
-  },
-  {
-    name: 'Nov',
-    Motivo1: 1000,
-    Motivo2: 1800,
-    Motivo3: 4500,
-  },
-  {
-    name: 'Dec',
-    Motivo1: 1000,
-    Motivo2: 9400,
-    Motivo3: 10400,
-  },
-];
-
-const AreaChartComponent = () => {
+const AreaChartComponent = ({ data }) => {
   return (
-    <ResponsiveContainer className={'flex flex-1 p-10'} >
+    <ResponsiveContainer className={'flex flex-1 p-10'}>
       <AreaChart
         width={500}
         height={300}
-        data={productSales}
+        data={data}
         margin={{ right: 30 }}
       >
         <YAxis />
         <XAxis dataKey="name" />
         <CartesianGrid strokeDasharray="5 5" />
-
         <Tooltip content={<CustomTooltip />} />
         <Legend />
 
         <Area
           type="monotone"
-          dataKey="Motivo1"
+          dataKey="servico"
           stroke="#2563eb"
           fill="#3b82f6"
-          stackId="1"
+          name="Serviço"
         />
-
         <Area
           type="monotone"
-          dataKey="Motivo2"
+          dataKey="totalAtendimento"
           stroke="#7c3aed"
           fill="#D71B60"
-          stackId="1"
-        />
-
-        <Area
-          type="monotone"
-          dataKey="Motivo3"
-          stroke="#7c3aed"
-          fill="#8b5cf6"
-          stackId="1"
+          name="Total de Atendimentos"
         />
       </AreaChart>
     </ResponsiveContainer>
@@ -124,24 +51,36 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="p-4 bg-slate-900 flex flex-col gap-4 rounded-md">
         <p className="text-medium text-lg">{label}</p>
         <p className="text-sm text-blue-400">
-          Motivo1:
-          <span className="ml-2">${payload[0].value}</span>
+          Motivo Chamada: 
+          <span className="ml-2">{payload[0].payload.name}</span>
+        </p>
+        <p className="text-sm text-blue-400">
+          Serviço: 
+          <span className="ml-2">{payload[0].payload.servico}</span>
         </p>
         <p className="text-sm text-indigo-400">
-          Motivo2:
-          <span className="ml-2">${payload[1].value}</span>
-        </p>
-        <p className="text-sm text-indigo-400">
-          Motivo3:
-          <span className="ml-2">${payload[1].value}</span>
+          Total Atendimentos: 
+          <span className="ml-2">{payload[1].value}</span>
         </p>
       </div>
     );
   }
+  return null;
 };
 
-export default AreaChartComponent;
-
 export function RenderAreaChart() {
-  return <AreaChartComponent />;
+  const { data, error, loading } = useApi('/GetAtendimento/GetMotivoChamadaData');
+
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>Erro ao carregar dados: {error.message}</p>;
+
+  if (!data) return <p>Nenhum dado disponível</p>;
+
+  const salesData = data.map(item => ({
+    name: item.motivoChamadaNome,
+    servico: item.servico,
+    totalAtendimento: item.totalAtendimento,
+  }));
+
+  return <AreaChartComponent data={salesData} />;
 }

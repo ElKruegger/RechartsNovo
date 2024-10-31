@@ -1,33 +1,25 @@
 import { useState } from 'react';
-import { RenderLineChart } from "../components/charts/LineChart";
-import { RenderBarChart } from "../components/charts/barchart";
-import { RenderAreaChart } from "../components/charts/AreaChart";
 import { Navbar } from "../components/navbar";
-import { IoStatsChart } from "react-icons/io5";
-import { MdOutlineSsidChart } from "react-icons/md";
-import { RiBarChartHorizontalFill } from "react-icons/ri";
+import { RenderHorizontalChart } from "../components/charts/horizontalchart";
+import { RenderSimpleBarChart } from "../components/charts/SimpleBarchart";
+import BarChartStackedBySign from '../components/charts/BarChartStackedBySign';
 
 export default function Home() {
+  return (
+    <div className="flex flex-1 h-full w-screen ">
+      {/* <Navbar /> */}
 
-  const [chart, setChart] = useState('area');
+      <div className="flex flex-1 flex-col gap-10 justify-start items-center h-screen w-screen p-10">
+        <h1 className="text-4xl text-black shadow-md bg-white p-4 border-transparent mb-6">Atendimentos por serviço</h1>
+        
+        <RenderSimpleBarChart />
+        {/* <RenderHorizontalChart /> */}
+        <BarChartStackedBySign />
 
-  const handleChartChange = (newChart) => {
-    setChart(newChart);
-  };
-
-    return (
-      <div className="flex h-screen w-screen">
-        <Navbar />
-        <div className="flex flex-1 flex-col w-full p-9 items-center">
-        {chart === 'area' ? <RenderAreaChart /> : null}
-          {chart === 'line' ? <RenderLineChart /> : null}
-          {chart === 'bar' ? <RenderBarChart /> : null}
-          <div className="flex  items-center w-60 h-24 justify-center bg-zinc-700 rounded-3xl transition duration-500 ">
-            <IoStatsChart className="mx-2 rounded-3xl border-2 border-white-700  hover:scale-120 text-3xl hover:border-blue-500" onClick={() => handleChartChange('bar')} />
-            <MdOutlineSsidChart className="mx-2 rounded-3xl border-2 border-white-700 hover:scale-120 text-3xl hover:border-blue-500" onClick={() => handleChartChange('area')}/>
-            <RiBarChartHorizontalFill className="mx-2 rounded-3xl border-2 border-white-700 hover:scale-120 text-3xl hover:border-blue-500" onClick={() => handleChartChange('line')}/>
-          </div>
+        <div className="flex flex-1 flex-col  h-screen w-screen ">
+          <h1 className="text-4xl text-black shadow-md bg-white p-4 border-transparent">Atendimento de serviço por motivo</h1>
         </div>
       </div>
-    )
-  } 
+    </div>
+  );
+}
