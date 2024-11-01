@@ -10,33 +10,16 @@ import {
   Legend,
 } from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const StackedBarChart = () => {
+const PercentageChart = () => {
   const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: ['Psicologico', 'Fisioterapia', 'Personal', 'Contato Gestores', 'Orient/Programa', 'Serviço Social'], 
     datasets: [
       {
-        label: 'Dataset 1',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        data: [100, -50, 70, -40, 80, -30, 60],
-      },
-      {
-        label: 'Dataset 2',
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-        data: [60, 90, -20, 70, -50, 40, -60],
-      },
-      {
-        label: 'Dataset 3',
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-        data: [-30, 80, 60, -90, 30, 100, -70],
+        label: 'Percentage',
+        backgroundColor: 'rgba(255, 206, 86, 0.5)',
+        data: [50, 30, 20, 15, 10, 5],
       },
     ],
   };
@@ -44,30 +27,98 @@ const StackedBarChart = () => {
   const options = {
     responsive: true,
     plugins: {
-      legend: {
-        position: 'top',
+      legend: { position: 'top' },
+      title: { display: true, text: 'Percentage Chart' },
+    },
+    indexAxis: 'y', // Set to 'x' for vertical bars
+  };
+
+  return <Bar data={data} options={options} />;
+};
+
+const AtivoReceptivoChart = () => {
+  const data = {
+    labels: ['Psicologico', 'Fisioterapia', 'Personal', 'Contato Gestores', 'Orient/Programa', 'Serviço Social'],
+    datasets: [
+      {
+        label: 'Ativo',
+        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        data: [-70, -80, -30, -20, -10, -5],
+        stack: 'center',
       },
-      title: {
-        display: true,
-        text: 'Chart.js Bar Chart - Stacked',
+      {
+        label: 'Receptivo',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        data: [30, 40, 60],
+        stack: 'center',
       },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: true, text: 'Ativo/Receptivo Chart' },
     },
     scales: {
       x: {
         stacked: true,
+        min: -100, // Ajuste conforme necessário para o valor mínimo
+        max: 100,  // Ajuste conforme necessário para o valor máximo
+        grid: {
+          color: (context) => (context.tick.value === 0 ? 'black' : '#e5e5e5'), // Central line in black
+          lineWidth: (context) => (context.tick.value === 0 ? 2 : 1),
+        },
       },
       y: {
         stacked: true,
       },
     },
-    indexAxis: 'y', // Alteração para barras verticais
+    indexAxis: 'y', // Set to 'x' for vertical bars
   };
 
+  return <Bar data={data} options={options} />;
+};
+
+const TitularChart = () => {
+  const data = {
+    labels: ['Psicologico', 'Fisioterapia', 'Personal', 'Contato Gestores', 'Orient/Programa', 'Serviço Social'],
+    datasets: [
+      {
+        label: 'Titular',
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        data: [40, 60, 80, 100, 120, 140],
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: true, text: 'Titular Chart' },
+    },
+    indexAxis: 'y', // Set to 'x' for vertical bars
+  };
+
+  return <Bar data={data} options={options} />;
+};
+
+const Dashboard = () => {
   return (
-    <div className='flex justify-center w-full h-1/2'> {/* Ajuste de tamanho */}
-      <Bar data={data} options={options} />
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+      <div className="flex justify-center w-full h-96"> {/* Increased height */}
+        <PercentageChart />
+      </div>
+      <div className="flex justify-center w-full h-96"> {/* Increased height */}
+        <AtivoReceptivoChart />
+      </div>
+      <div className="flex justify-center w-full h-96"> {/* Increased height */}
+        <TitularChart />
+      </div>
     </div>
   );
 };
 
-export default StackedBarChart;
+export default Dashboard;

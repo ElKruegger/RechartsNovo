@@ -1,47 +1,42 @@
-import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import 'chart.js/auto';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-const BarChart = () => {
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+function BarChart() {
+  const dataJuly = {
+    labels: ['Contato Gestores', 'Fisioterapia/Personal', 'Orientações', 'Psicologico', 'Serviço Social'],
     datasets: [
       {
-        label: 'Sales',
-        data: [65, 59, 80, 81, 56, 55, 40],
+        label: 'July',
+        data: [12, 15, 8, 5, 10], // Replace with July data
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
     ],
   };
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top',
+  const dataJune = {
+    labels: ['Contato Gestores', 'Fisioterapia/Personal', 'Orientações', 'Psicologico', 'Serviço Social'],
+    datasets: [
+      {
+        label: 'June',
+        data: [10, 20, 5, 7, 12], // Replace with June data
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
       },
-      title: {
-        display: true,
-        text: 'Monthly Sales',
-      },
-    },
+    ],
   };
 
   return (
     <div className="flex flex-wrap justify-center gap-44">
-      {/* Primeiro Gráfico */}
       <div className="flex-1 basis-[400px] max-w-[500px] h-[400px]">
-        <Bar data={data} options={options} />
+        <h2>June Data</h2>
+        <Bar data={dataJune} />
       </div>
-      {/* Segundo Gráfico */}
+
       <div className="flex-1 basis-[400px] max-w-[500px] h-[400px]">
-        <Bar data={data} options={options} />
+        <h2>July Data</h2>
+        <Bar data={dataJuly} />
       </div>
     </div>
   );
-};
+}
 
 export default BarChart;
