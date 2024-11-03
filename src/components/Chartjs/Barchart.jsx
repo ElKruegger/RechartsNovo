@@ -8,7 +8,7 @@ function BarChart() {
       {
         label: 'July',
         data: [12, 15, 8, 5, 10], // Replace with July data
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        backgroundColor: ['#FF69B4', '#8B4513', '#32CD32', '#FFD700', '#1E90FF'], // Cores: marrom, rosa, verde, amarelo, azul
       },
     ],
   };
@@ -19,7 +19,7 @@ function BarChart() {
       {
         label: 'June',
         data: [10, 20, 5, 7, 12], // Replace with June data
-        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        backgroundColor: ['#FF69B4', '#8B4513', '#32CD32', '#FFD700', '#1E90FF'], // Cores: marrom, rosa, verde, amarelo, azul
       },
     ],
   };
